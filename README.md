@@ -1,16 +1,84 @@
-# React + Vite
+# Speak English Quiz
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + TypeScript + Vite + Firebase application for practicing English speaking.
 
-Currently, two official plugins are available:
+## Features
+- Speech Recognition (Web Speech API)
+- Text-to-Speech (TTS)
+- Firebase Firestore for data & logging
+- Firebase Storage for images
+- Admin interface for adding cards
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Setup
 
-## React Compiler
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+2. **Firebase Setup**
+   - Create a project in [Firebase Console](https://console.firebase.google.com/).
+   - Enable **Authentication** (Anonymous).
+   - Enable **Firestore Database**.
+   - Enable **Storage**.
+   - Copy your web app configuration.
 
-## Expanding the ESLint configuration
+3. **Environment Variables**
+   Create a `.env` file in the root directory:
+   ```env
+   VITE_FIREBASE_API_KEY=your_api_key
+   VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+   VITE_FIREBASE_PROJECT_ID=your_project_id
+   VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+   VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+   VITE_FIREBASE_APP_ID=your_app_id
+   ```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+4. **Run Locally**
+   ```bash
+   npm run dev
+   ```
+
+## Admin
+Navigate to `/admin` to add new quiz cards.
+
+## Deployment to Firebase Hosting
+
+1. **Install Firebase CLI**
+   ```bash
+   npm install -g firebase-tools
+   ```
+
+2. **Login**
+   ```bash
+   firebase login
+   ```
+
+3. **Initialize**
+   ```bash
+   firebase init hosting
+   ```
+   - Select your project.
+   - Public directory: `dist`
+   - Configure as single-page app: `Yes`
+
+4. **Build & Deploy**
+   ```bash
+   npm run build
+   firebase deploy
+   ```
+
+## Firestore Rules
+Ensure your Firestore rules allow read/write appropriately.
+Example (Development):
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
+```
+*Note: Secure these rules for production.*
